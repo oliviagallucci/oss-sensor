@@ -1,5 +1,7 @@
 # OSS-Sensor
 
+TLDR: OSS-Sensor is a local-first platform that operationalizes Apple partial open source, binaries, and unified logs into a prioritized vulnerability research queue. The mental model is: diff → hypothesis → harness with tight evidence provenance and low hallucination risk.
+
 Local-first platform that turns **Apple partial open source + binaries + unified logs** into a **prioritized vulnerability research queue**. You get: what changed, why it looks security-relevant, and what to reverse or fuzz—with every claim tied to evidence IDs (avoids hallucination).
 
 **Mental model:** diff → hypothesis → harness.
