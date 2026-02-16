@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - STORAGE_MODE=${STORAGE_MODE:-derived_features_only}
+      - LLM_PROVIDER=${LLM_PROVIDER:-}
+      - DATABASE_URL=sqlite+aiosqlite:///./data/oss_sensor.db
+    volumes:
+      - oss_sensor_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    command: uvicorn oss_sensor.main:app --host 0.0.0.0 --port 8000
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  oss_sensor_data:

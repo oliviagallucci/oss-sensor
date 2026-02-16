@@ -1,0 +1,64 @@
+# -----------------------------------------------------------------------------
+# Do NOT push to OSS repo:
+#   - data/ and *.db (local DB + any stored content in full_source_internal)
+#   - .env, .env.local, *.pem (secrets, API keys)
+#   - artifacts/, *.logarchive (user-ingested paths or dumps)
+#   - .venv, node_modules (reinstall via setup.sh / npm install)
+# Demo fixtures (demo/fixtures/) are synthetic and safe to commit.
+# -----------------------------------------------------------------------------
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+frontend/dist/
+*.log
+npm-debug.log*
+
+# Data & artifacts (user data; never commit)
+data/
+backend/data/
+*.db
+*.sqlite
+*.sqlite3
+artifacts/
+*.logarchive
+*.crash
+
+# IDE / editor
+.idea/
+.vscode/
+.cursor/
+
+# Docker
+.docker/
+
+# Secrets & local overrides
+.env
+.env.*
+!.env.example
+*.pem
+
+# Test / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# OS
+.DS_Store
+Thumbs.db
