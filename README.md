@@ -1,6 +1,6 @@
 # OSS-Sensor
 
-Local-first platform that turns **Apple partial open source + binaries + unified logs** into a **prioritized vulnerability research queue**. You get: what changed, why it looks security-relevant, and what to reverse or fuzz—with every claim tied to evidence IDs (no hallucination).
+Local-first platform that turns **Apple partial open source + binaries + unified logs** into a **prioritized vulnerability research queue**. You get: what changed, why it looks security-relevant, and what to reverse or fuzz—with every claim tied to evidence IDs (avoids hallucination).
 
 **Mental model:** diff → hypothesis → harness.
 
