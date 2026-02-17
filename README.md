@@ -1,6 +1,11 @@
-# OSS-Sensor
+<h1 align="center">OSS-Sensor</h1>
 
 TLDR: OSS-Sensor is a local-first platform that operationalizes Apple partial open source, binaries, and unified logs into a prioritized vulnerability research queue. The mental model is: diff → hypothesis → harness with tight evidence provenance and low hallucination risk.
+
+<p align="center">
+  <img src="https://github.com/oliviagallucci/oss-sensor/blob/main/docs/oss%20sensor.gif?raw=true"
+       alt="apple gif">
+</p>
 
 Local-first platform that turns **Apple partial open source + binaries + unified logs** into a **prioritized vulnerability research queue**. You get: what changed, why it looks security-relevant, and what to reverse or fuzz—with every claim tied to evidence IDs (avoids hallucination).
 
