@@ -28,6 +28,10 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.8.0",
 ]
+llm = [
+    "openai>=1.0.0",
+    "anthropic>=0.39.0",
+]
 
 [project.scripts]
 oss-sensor = "oss_sensor.cli:app"
