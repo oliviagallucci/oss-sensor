@@ -91,7 +91,19 @@ class NoOpLLM(LLMProvider):
 def get_llm_provider(settings: Settings | None = None) -> LLMProvider:
     """Return configured LLM provider or NoOp (rules-only)."""
     s = settings or Settings()
-    if not s.llm_provider or not s.llm_api_key:
+    provider = (s.llm_provider or "").strip().lower()
+    if not provider:
         return NoOpLLM()
-    # Pluggable: could load openai, anthropic, etc.
+    # Prefer provider-specific key if set
+    key = s.get_llm_api_key()
+    if not key:
+        return NoOpLLM()
+    if provider == "openai":
+        from oss_sensor.llm_impl import create_openai_enrichment
+        impl = create_openai_enrichment(s)
+        return impl if impl else NoOpLLM()
+    if provider == "anthropic":
+        from oss_sensor.llm_impl import create_anthropic_enrichment
+        impl = create_anthropic_enrichment(s)
+        return impl if impl else NoOpLLM()
     return NoOpLLM()

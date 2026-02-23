@@ -59,7 +59,8 @@ All reports **cite artifact IDs / stable IDs** only; no free-text speculation wi
 ### 8. LLM (optional, pluggable)
 
 - When `LLM_PROVIDER` and credentials are not set, the pipeline runs **rules-only** (no LLM).
-- When set, a provider can enrich triage, fuzz plan, reverse context, hypotheses, telemetry. Enrichment must only cite existing `evidence_refs`; no inventing artifact IDs.
+- When set, a provider (**OpenAI** or **Anthropic**) enriches triage, fuzz plan, reverse context, hypotheses, and telemetry. Enrichment must only cite existing `evidence_refs`; no inventing artifact IDs.
+- **Setup:** Install optional deps: `pip install -e ".[llm]"` in the backend. Set `LLM_PROVIDER=openai` or `anthropic`, and `LLM_API_KEY` (or `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`). Run `report --with-llm` to use the LLM. See `.env.example` for all options.
 
 ## Data model
 
