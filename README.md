@@ -117,6 +117,12 @@ oss-sensor/
 
 ---
 
+## Reverse engineering (radare2, Frida, AI)
+
+**Easiest setup:** run `./setup.sh --demo --mcp` (add `--reverse` for radare2 + Frida), then restart Cursor. For manual install and details, see **[docs/reverse-engineering-setup.md](docs/reverse-engineering-setup.md)**.
+
+---
+
 ## Configuration
 
 - **STORAGE_MODE**: `derived_features_only` (default) or `full_source_internal`.

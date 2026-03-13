@@ -2,6 +2,20 @@
 
 OSS-Sensor exposes an **MCP (Model Context Protocol) server** so Cursor’s AI can drive the full reverse-engineering pipeline: queue, diffs, reports, pipeline steps, **radare2** analysis, and **Frida** tracing. You can automate each step from chat.
 
+## Easiest setup (recommended)
+
+From the repo root:
+
+- **MCP only (queue, diff, reports, pipeline tools):**  
+  `./setup.sh --demo --mcp`  
+  Then restart Cursor. The agent can use `get_queue`, `get_diff`, `get_reports`, and `run_pipeline_step` immediately.
+
+- **Full RE stack (MCP + radare2 + Frida):**  
+  `./setup.sh --demo --mcp --reverse`  
+  Then restart Cursor. If `r2` is not on your PATH, the script will remind you to install radare2 (e.g. `brew install radare2`).
+
+If you used `./setup.sh --mcp`, `.cursor/mcp.json` is already created; you only need to restart Cursor. The rest of this doc covers manual install and Cursor config details.
+
 ## What the agent can do
 
 - **Queue and diffs:** `get_queue`, `get_diff`, `get_reports` to inspect the prioritized queue and evidence.
@@ -29,7 +43,7 @@ Typical automation flow: **get_queue → pick diff_id → get_diff + get_reports
 
 ## Cursor MCP configuration
 
-Add the OSS-Sensor MCP server so Cursor’s agent can call the tools.
+If you ran `./setup.sh --mcp`, `.cursor/mcp.json` is already created; just restart Cursor to load the server. Otherwise, add the OSS-Sensor MCP server as below.
 
 ### Option A: Project config (recommended)
 
