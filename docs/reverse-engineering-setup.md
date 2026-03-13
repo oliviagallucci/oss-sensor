@@ -12,6 +12,8 @@ From the repo root:
 
 - **Full RE stack (MCP + radare2 + Frida):**  
   `./setup.sh --demo --mcp --reverse`  
+  On macOS with Homebrew, you can add `--install-deps` to have the script install Node (npm) and radare2 if missing:  
+  `./setup.sh --demo --mcp --reverse --install-deps`  
   Then **restart Cursor** so the MCP server loads. If `r2` is not on your PATH, the script will remind you to install radare2 (e.g. `brew install radare2`).
 
 If you used `./setup.sh --mcp`, `.cursor/mcp.json` is already created; you only need to restart Cursor. The rest of this doc covers manual install and Cursor config details.
