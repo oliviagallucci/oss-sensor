@@ -12,9 +12,11 @@ From the repo root:
 
 - **Full RE stack (MCP + radare2 + Frida):**  
   `./setup.sh --demo --mcp --reverse`  
-  Then restart Cursor. If `r2` is not on your PATH, the script will remind you to install radare2 (e.g. `brew install radare2`).
+  Then **restart Cursor** so the MCP server loads. If `r2` is not on your PATH, the script will remind you to install radare2 (e.g. `brew install radare2`).
 
 If you used `./setup.sh --mcp`, `.cursor/mcp.json` is already created; you only need to restart Cursor. The rest of this doc covers manual install and Cursor config details.
+
+**If radare2 is not on your PATH:** Install it so `r2_analyze` and `r2_extract_features` work (e.g. `brew install radare2` on macOS). Without it, those MCP tools will report that r2 is not installed.
 
 ## What the agent can do
 
