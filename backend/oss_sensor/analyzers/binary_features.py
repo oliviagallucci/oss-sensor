@@ -1,5 +1,7 @@
-"""Binary feature extraction: strings, imports, symbols, ObjC metadata (deterministic)."""
+"""Binary feature extraction: strings, imports, symbols, ObjC metadata (deterministic).
+When radare2 and r2pipe are available (optional [reverse] extra), uses r2 for real extraction."""
 
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -36,11 +38,22 @@ def _fake_objc(path: Path) -> dict[str, Any]:
     return {}
 
 
+def _use_r2() -> bool:
+    """Use radare2 when available and not explicitly disabled."""
+    if os.environ.get("USE_R2_BINARY_FEATURES", "").lower() in ("0", "false", "no"):
+        return False
+    try:
+        from oss_sensor.analyzers import r2_features
+        return r2_features._r2_available()
+    except Exception:
+        return False
+
+
 def extract_binary_features(macho_dir: Path) -> dict[str, Any]:
     """
     Extract deterministic features from Mach-O(s) in directory.
     Returns dict suitable for storage: strings, imports, symbols, objc_metadata.
-    All entries are lists or dicts keyed by file name for multi-binary dirs.
+    When r2 and r2pipe are available, uses radare2 for real extraction; else uses stubs.
     """
     result: dict[str, Any] = {
         "strings": [],
@@ -49,19 +62,32 @@ def extract_binary_features(macho_dir: Path) -> dict[str, Any]:
         "objc_metadata": {},
     }
     files = list(macho_dir.iterdir()) if macho_dir.is_dir() else [macho_dir]
+    use_r2 = _use_r2()
     for p in files:
         if not p.is_file():
             continue
         try:
             raw = p.read_bytes()[:4]
-            # Mach-O magic
-            if raw in (b"\xfe\xed\xfa\xce", b"\xfe\xed\xfa\xcf", b"\xca\xfe\xba\xbe"):
+            if raw not in (b"\xfe\xed\xfa\xce", b"\xfe\xed\xfa\xcf", b"\xca\xfe\xba\xbe"):
+                continue
+            if use_r2:
+                from oss_sensor.analyzers.r2_features import extract_binary_features_r2
+                r2_result = extract_binary_features_r2(p)
+                if r2_result:
+                    result["strings"].extend(r2_result.get("strings", []))
+                    result["imports"].extend(r2_result.get("imports", []))
+                    result["symbols"].extend(r2_result.get("symbols", []))
+                else:
+                    result["strings"].extend(_read_strings(p))
+                    result["imports"].extend(_fake_imports(p))
+                    result["symbols"].extend(_fake_symbols(p))
+            else:
                 result["strings"].extend(_read_strings(p))
                 result["imports"].extend(_fake_imports(p))
                 result["symbols"].extend(_fake_symbols(p))
-                objc = _fake_objc(p)
-                if objc:
-                    result["objc_metadata"][p.name] = objc
+            objc = _fake_objc(p)
+            if objc:
+                result["objc_metadata"][p.name] = objc
         except Exception:
             pass
     result["strings"] = list(dict.fromkeys(result["strings"]))[:2000]  # dedupe, cap

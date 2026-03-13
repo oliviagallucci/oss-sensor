@@ -82,3 +82,11 @@ End-to-end: run `make demo` (ingest both builds, diff, score, report), then open
 ## 10-minute quickstart
 
 See [README](../README.md): install backend + frontend deps, run `make demo`, then `make serve-api` and `make serve-frontend` (or use Docker Compose). Open http://localhost:3000 for the queue and diff views.
+
+## Automated RE with Cursor + MCP
+
+An **MCP server** (`oss_sensor.mcp`) exposes tools so Cursor’s AI can drive the pipeline and run radare2/Frida. Use it to automate: get queue → pick diff → get reports → r2 analysis on binaries → Frida trace on entry points.
+
+- **MCP server command:** From repo root, run with cwd `backend`: `python -m oss_sensor.mcp` (or use the venv: `../.venv/bin/python -m oss_sensor.mcp`). Configure in Cursor via **Settings → Tools & MCP** or project **.cursor/mcp.json** (see [reverse-engineering-setup.md](reverse-engineering-setup.md)).
+- **Env:** `DATABASE_URL` (default: `sqlite+aiosqlite:///./data/oss_sensor.db` relative to `backend/`); optional `LLM_*` for report enrichment.
+- **Optional deps:** Install with `pip install -e ".[reverse]"` for radare2 (r2pipe) and Frida; install radare2 on PATH. Then the agent can call `r2_analyze`, `r2_extract_features`, `frida_run_script`, and `frida_trace_export`.

@@ -7,6 +7,10 @@ TLDR: OSS-Sensor is a local-first platform that operationalizes Apple partial op
        alt="apple gif">
 </p>
 
+```
+./setup.sh --demo --mcp --reverse --install-deps
+```
+
 Local-first platform that turns **Apple partial open source + binaries + unified logs** into a **prioritized vulnerability research queue**. You get: what changed, why it looks security-relevant, and what to reverse or fuzz—with every claim tied to evidence IDs (avoids hallucination).
 
 **Mental model:** diff → hypothesis → harness.
@@ -114,6 +118,12 @@ oss-sensor/
 └── docs/
     └── architecture.md
 ```
+
+---
+
+## Reverse engineering (radare2, Frida, AI)
+
+**Easiest setup:** run `./setup.sh --demo --mcp` (add `--reverse` for radare2 + Frida). On macOS with Homebrew, add `--install-deps` to auto-install Node and radare2 if missing. Then restart Cursor. For manual install and details, see **[docs/reverse-engineering-setup.md](docs/reverse-engineering-setup.md)**.
 
 ---
 

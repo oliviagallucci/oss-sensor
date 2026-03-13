@@ -23,7 +23,7 @@ down:
 test: test-backend test-frontend
 
 test-backend:
-	cd backend && python -m pytest tests/ -v --tb=short
+	cd backend && ../.venv/bin/python -m pytest tests/ -v --tb=short
 
 test-frontend:
 	cd frontend && npm run test -- --run
